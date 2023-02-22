@@ -1,6 +1,9 @@
 import "./App.css";
 import { Footer } from "./assets/Footer";
 import mk from "./assets/img/mk.jpg";
+import kk from "./assets/img/kk.png";
+import jax from "./assets/img/jax.png";
+import cetrion from "./assets/img/cetrion.png";
 import { useState } from "react";
 
 import { initializeApp } from "firebase/app";
@@ -43,11 +46,11 @@ function compareToDB(e) {
     orderBy("timestamp", "desc"),
     limit(1)
   );
-  console.log(recentClick);
+  // console.log(recentClick);
   onSnapshot(recentClick, (snapshot) => {
     snapshot.docChanges().forEach((change) => {
       const coordinate = change.doc.data();
-      console.log(coordinate);
+      // console.log(coordinate);
     });
   });
 }
@@ -67,12 +70,27 @@ async function saveCoordinates(coordinates) {
 function App() {
   const [coordinate, setCoordinates] = useState({ x: null, y: null });
 
+  const boxPosition = { top: coordinate.y, left: coordinate.x };
+
   const setXY = (e) => {
-    setCoordinates({ x: e.clientX, y: e.clientY });
+    console.log(e);
+    setCoordinates({ x: e.pageX, y: e.pageY });
   };
 
   return (
-    <div className="App" onMouseMove={setXY}>
+    <div
+      className="App"
+      onMouseMove={(e) => {
+        setXY(e);
+      }}
+      onClick={() => {
+        document.querySelector(".charWindow").classList.toggle("hidden");
+      }}
+    >
+      <div className="hidden charWindow" style={boxPosition}>
+        <h1>Select the character</h1>
+        <img src={kk} alt="" />
+      </div>
       <nav id="nav">
         <h1>Where's Waldo</h1>
         <p>{coordinate.x}</p>
