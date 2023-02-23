@@ -73,7 +73,7 @@ function App() {
   const boxPosition = { top: coordinate.y, left: coordinate.x };
 
   const setXY = (e) => {
-    console.log(e);
+    // console.log(e);
     setCoordinates({ x: e.pageX, y: e.pageY });
   };
 
@@ -88,8 +88,18 @@ function App() {
       }}
     >
       <div className="hidden charWindow" style={boxPosition}>
-        <h1>Select the character</h1>
-        <img src={kk} alt="" />
+        <p>Select the character</p>
+        <div id="guess-box">
+        <img src={kk} alt="kotalkhan" />
+        <img src={jax} alt="jax" className="jax"/>
+        <img src={cetrion} alt="cetrion" />
+        </div>
+        <div className="charNameWindow">
+          <div>Kotal Khan</div>
+          <div>Jax</div>
+          <div>Cetrion</div>
+        </div>
+        
       </div>
       <nav id="nav">
         <h1>Where's Waldo</h1>
