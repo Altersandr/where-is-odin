@@ -19,6 +19,7 @@ import {
   doc,
   updateDoc,
   setDoc,
+  getDoc,
 } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -40,35 +41,69 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-function compareToDB(e) {
-  const recentClick = query(
-    collection(getFirestore(), "coordinates"),
-    orderBy("timestamp", "desc"),
-    limit(1)
-  );
-  // console.log(recentClick);
-  onSnapshot(recentClick, (snapshot) => {
-    snapshot.docChanges().forEach((change) => {
-      const coordinate = change.doc.data();
-      // console.log(coordinate);
-    });
-  });
+const checkLocation = (x, y) => {
+  const radius = 50;
+  const angleIncrement = (2 * Math.PI) / numPoints;
+};
+
+async function compareToDB(e) {
+  const docRef = doc(getFirestore(), "characters", "jax");
+  const docSnap = await getDoc(docRef);
+  const minX = await docSnap.data().minX;
+  const maxX = await docSnap.data().maxX;
+  const minY = await docSnap.data().minY;
+  const maxY = await docSnap.data().maxY;
+
+  // console.log(click.x, docSnap.data().x);
+  if (e.pageX >= minX && e.pageX <= maxX && e.pageY >= minY && e.pageY <= maxY)
+    console.log("you found jax");
+  // console.log(docSnap.data());
+
+  // const recentClick = query(
+  //   collection(getFirestore(), "coordinates"),
+  //   orderBy("timestamp", "desc"),
+  //   limit(1)
+  // );
+  // // console.log(recentClick);
+  // onSnapshot(recentClick, (snapshot) => {
+  //   snapshot.docChanges().forEach((change) => {
+  //     const coordinate = change.doc.data();
+  //     // console.log(coordinate);
+  //   });
+  // });
 }
 
-async function saveCoordinates(coordinates) {
-  try {
-    await addDoc(collection(db, "coordinates"), {
-      x: coordinates.x,
-      y: coordinates.y,
-      timestamp: serverTimestamp(),
-    });
-  } catch (error) {
-    console.error("Error adding the coordinates to the Database", error);
-  }
-}
+// async function saveCoordinates(coordinates) {
+//   try {
+//     await addDoc(collection(db, "coordinates"), {
+//       x: coordinates.x,
+//       y: coordinates.y,
+//       timestamp: serverTimestamp(),
+//     });
+//   } catch (error) {
+//     console.error("Error adding the coordinates to the Database", error);
+//   }
+// }
 
 function App() {
   const [coordinate, setCoordinates] = useState({ x: null, y: null });
+  const [recentClick, setRecentClick] = useState({});
+
+  // function handleClick(event) {
+  //   const x = event.clientX;
+  //   const y = event.clientY;
+  //   const canvas = document.createElement("canvas");
+  //   const ctx = canvas.getContext("2d");
+  //   canvas.width = event.target.width;
+  //   canvas.height = event.target.height;
+  //   ctx.drawImage(event.target, 0, 0, canvas.width, canvas.height);
+  //   ctx.beginPath();
+  //   ctx.arc(x, y, 10, 0, 2 * Math.PI);
+  //   ctx.lineWidth = 2;
+  //   ctx.strokeStyle = "red";
+  //   ctx.stroke();
+  //   event.target.src = canvas.toDataURL();
+  // }
 
   const boxPosition = { top: coordinate.y, left: coordinate.x };
 
@@ -90,16 +125,15 @@ function App() {
       <div className="hidden charWindow" style={boxPosition}>
         <p>Select the character</p>
         <div id="guess-box">
-        <img src={kk} alt="kotalkhan" />
-        <img src={jax} alt="jax" className="jax"/>
-        <img src={cetrion} alt="cetrion" />
+          <img src={kk} alt="kotalkhan" />
+          <img src={jax} alt="jax" className="jax" />
+          <img src={cetrion} alt="cetrion" />
         </div>
         <div className="charNameWindow">
           <div>Kotal Khan</div>
           <div>Jax</div>
           <div>Cetrion</div>
         </div>
-        
       </div>
       <nav id="nav">
         <h1>Where's Waldo</h1>
@@ -110,9 +144,12 @@ function App() {
       <img
         src={mk}
         id="image"
-        onClick={() => {
-          saveCoordinates(coordinate);
-          compareToDB();
+        onClick={(e) => {
+          // handleClick(e);
+          // saveCoordinates(coordinate);
+          // setRecentClick({ x: e.pageX, y: e.pageY });
+          compareToDB(e);
+          // console.log(recentClick);
         }}
       />
       <Footer />
