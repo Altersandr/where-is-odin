@@ -22,37 +22,63 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-const timer = () => {
-  setTi;
-};
-
-function handleComparison(event) {
-  compareToDB(event);
-}
-
-async function compareToDB(e) {
+async function compareToDB(e, char) {
+  console.log(e.pageX, e.pageY)
+  console.log(e.screenX, e.screenY)
   //char
-  const docRef = doc(getFirestore(), "characters", "jax"); //char
+  const docRef = doc(getFirestore(), "characters", char); //char
   const docSnap = await getDoc(docRef);
   const minX = await docSnap.data().minX;
   const maxX = await docSnap.data().maxX;
   const minY = await docSnap.data().minY;
   const maxY = await docSnap.data().maxY;
 
-  if (e.pageX >= minX && e.pageX <= maxX && e.pageY >= minY && e.pageY <= maxY)
-    console.log("you found jax");
+  if (e.pageX >= minX && e.pageX <= maxX && e.pageY >= minY && e.pageY <= maxY){
+    document.querySelector(`.${char}`).classList.add("found")
+    // console.log(document.querySelector(`.${char}`))
+    console.log(`You found ${char}`);
+  }
 }
 function App() {
+
+  const [counter, setCounter]= useState(0);
+
+// useEffect(()=>{
+// const timer = setTimeout(()=>{
+//   setCounter(counter+1)
+// }, 1000)
+
+// return ()=> clearTimeout(timer)
+// })
   const [coordinate, setCoordinates] = useState({ x: null, y: null });
 
   const boxPosition = { top: coordinate.y, left: coordinate.x };
+
+//   const setCharCoords = ()=>{
+//     const screenWidth = window.screen.width;
+// const screenHeight = window.screen.height;
+
+// const screenResolutionX = window.screen.availWidth;
+// const screenResolutionY = window.screen.availHeight;
+
+// const scalingFactorX = screenResolutionX / screenWidth;
+// const scalingFactorY = screenResolutionY / screenHeight;
+
+// const pointX = event.clientX;
+// const pointY = event.clientY;
+
+// const imageX = pointX * scalingFactorX;
+// const imageY = pointY * scalingFactorY;
+
+
+//   }
 
   const setXY = (e) => {
     setCoordinates({ x: e.pageX, y: e.pageY });
   };
 
   return (
-    <div className="App">
+    <div className="App" >
       <div className="hidden charWindow" style={boxPosition}>
         <p>Select the character</p>
         <div
@@ -60,12 +86,12 @@ function App() {
           onClick={(e) => {
             if (!e.target.classList.contains("char")) return;
             console.log(e.target.id);
-            handleComparison(e);
+            compareToDB(e, e.target.id);
             document.querySelector(".charWindow").classList.toggle("hidden");
           }}
         >
           <img src={kk} alt="kotalkhan" className="char" id="kk" />
-          <img src={jax} alt="jax" className="char jax" id="jax" />
+          <img src={jax} alt="jax" className="char" id="jax" />
           <img src={cetrion} alt="cetrion" className="char" id="cetrion" />
         </div>
         <div className="charNameWindow">
@@ -75,11 +101,14 @@ function App() {
         </div>
       </div>
       <nav id="nav">
+        <div id="timer">
+          <span>{counter}</span>
+        </div>
         <h1 id="title">Where's Waldo</h1>
         <div className="nav-chars">
-          <img src={kk} alt="khan" className="nav-char" />
-          <img src={jax} alt="jax" className="nav-char" />
-          <img src={cetrion} alt="cetrion" className="nav-char" />
+          <img src={kk} alt="khan" className="nav-char kk" />
+          <img src={jax} alt="jax" className="nav-char jax"  />
+          <img src={cetrion} alt="cetrion" className="nav-char cetrion" />
         </div>
       </nav>
       <img

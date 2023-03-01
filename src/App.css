@@ -26,6 +26,7 @@
   position: absolute;
   right: 150px;
   display: flex;
+  top: 35px;
 }
 
 .nav-chars::before {
@@ -34,7 +35,8 @@
   height: 30px;
   width: 228px;
   top: -30px;
-  background-color: rgb(151, 67, 28);
+  border-bottom: 3px solid white;
+  /* background-color: rgb(151, 67, 28); */
 }
 
 .nav-chars::after {
@@ -44,12 +46,35 @@
   height: 22px;
   width: 228px;
   bottom: -30px;
-  background-color: rgb(151, 67, 28);
+  /* background-color: rgb(151, 67, 28); */
+  border-top: 3px solid white;
+
 }
 .nav-char {
+  padding: 10px 0;
   margin-right: 20px;
   height: 100px;
 }
+
+.found{
+  opacity: .3;
+}
+
+#timer{
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 300px;
+  top: 20px;
+  height: 50px;
+  width: 50px; 
+  border-radius: 50%;
+  background-color: rgb(255, 255, 255);
+  color: red;
+}
+
 /* Footer */
 
 footer {
@@ -123,6 +148,6 @@ footer {
   transform: scale(1.125);
 }
 
-.jax {
+#jax, .jax{
   scale: 0.8;
 }
