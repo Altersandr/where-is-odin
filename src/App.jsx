@@ -54,7 +54,7 @@ function App() {
 
   const boxPosition = { top: coordinate.y, left: coordinate.x };
 
-//   const setCharCoords = ()=>{
+//   const setCharCoords = (event)=>{
 //     const screenWidth = window.screen.width;
 // const screenHeight = window.screen.height;
 
@@ -69,6 +69,8 @@ function App() {
 
 // const imageX = pointX * scalingFactorX;
 // const imageY = pointY * scalingFactorY;
+
+// console.log(scalingFactorX, scalingFactorY)
 
 
 //   }
@@ -90,12 +92,12 @@ function App() {
             document.querySelector(".charWindow").classList.toggle("hidden");
           }}
         >
-          <img src={kk} alt="kotalkhan" className="char" id="kk" />
+          <img src={kk} alt="shaokahn" className="char" id="kk" />
           <img src={jax} alt="jax" className="char" id="jax" />
           <img src={cetrion} alt="cetrion" className="char" id="cetrion" />
         </div>
         <div className="charNameWindow">
-          <div>Kotal Khan</div>
+          <div>Shao Kahn</div>
           <div>Jax</div>
           <div>Cetrion</div>
         </div>
@@ -106,7 +108,7 @@ function App() {
         </div>
         <h1 id="title">Where's Waldo</h1>
         <div className="nav-chars">
-          <img src={kk} alt="khan" className="nav-char kk" />
+          <img src={kk} alt="kahn" className="nav-char kk" />
           <img src={jax} alt="jax" className="nav-char jax"  />
           <img src={cetrion} alt="cetrion" className="nav-char cetrion" />
         </div>
@@ -115,10 +117,12 @@ function App() {
         src={mk}
         id="image"
         onClick={(e) => {
+          // setCharCoords(e)
           setXY(e);
           document.querySelector(".charWindow").classList.toggle("hidden");
         }}
       />
+      <span style={{height: "100px", width: "100px", position: "absolute", backgroundColor: "white", top: "22%", right: "-10%"}}></span>
       <Footer />
     </div>
   );
