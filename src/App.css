@@ -20,34 +20,27 @@
   width: 1920px;
   font-size: 30px;
   color: rgb(250, 170, 78);
+  display: flex;
+  justify-content: space-around;
 }
 
 .nav-chars {
   position: absolute;
   right: 150px;
-  display: flex;
   top: 35px;
 }
 
-.nav-chars::before {
-  position: absolute;
-  content: "Find Us";
-  height: 30px;
-  width: 228px;
-  top: -30px;
-  border-bottom: 3px solid white;
-  /* background-color: rgb(151, 67, 28); */
+.nav-chars-list{
+  /* background-color: aliceblue; */
+  display: flex;
+  /* flex-direction: column; */
 }
 
-.nav-chars::after {
-  position: absolute;
-  content: "Shao Kahn, Jax, Cetrion";
-  font-size: 20px;
-  height: 22px;
-  width: 228px;
-  bottom: -30px;
-  /* background-color: rgb(151, 67, 28); */
-  border-top: 3px solid white;
+.find{
+ position: sticky;
+  cursor: pointer;
+  animation: pulse 1s ease-in-out alternate infinite;
+
 }
 .nav-char {
   padding: 10px 0;
@@ -94,6 +87,16 @@ footer {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+
+@keyframes pulse {
+  0% {
+    transform: scale(100%);
+  }
+  100% {
+    transform: scale(150%)
   }
 }
 

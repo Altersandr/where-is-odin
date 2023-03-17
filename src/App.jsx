@@ -4,11 +4,11 @@ import mk from "./assets/img/mk.jpg";
 import kk from "./assets/img/kk.png";
 import jax from "./assets/img/jax.png";
 import cetrion from "./assets/img/cetrion.png";
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import Timer from "./assets/Timer";
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCS6p8dm2R__jkoWfyyqIk6Rw-sWSDQIG0",
@@ -33,19 +33,17 @@ async function compareToDB(e, char) {
   const maxY = await docSnap.data().maxY;
 
   if (e.x >= minX && e.x <= maxX && e.y >= minY && e.y <= maxY) {
-    document.querySelector(`.${char}`).classList.add("found");
+    document.querySelectorAll(`.${char}`).classList.add("found");
   }
 }
+
+const toggleHidden = ()=>{
+  document.querySelector(".nav-chars-list").classList.toggle("hidden")
+}
+
 function App() {
-  const [counter, setCounter] = useState(0);
+  // const [counter, setCounter] = useState(0);
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setCounter(counter + 1);
-  //   }, 1000);
-
-  //   return () => clearTimeout(timer);
-  // });
   const [coordinate, setCoordinates] = useState({ x: null, y: null });
 
   const boxPosition = { top: coordinate.y, left: coordinate.x };
@@ -53,6 +51,16 @@ function App() {
   const setXY = (e) => {
     setCoordinates({ x: e.pageX, y: e.pageY });
   };
+
+
+
+  useEffect(()=>{
+    (async ()=>{
+      await setDoc(doc(getFirestore(), "timer", "start"), {start: new Date().toTimeString().slice(0, 8)})
+    })()
+
+    
+  },[])
 
   return (
     <div className="App">
@@ -81,10 +89,14 @@ function App() {
           <Timer />
         </div>
         <h1 id="title">Where's Waldo</h1>
+        
         <div className="nav-chars">
+          <div className="find" onMouseEnter={toggleHidden} onMouseLeave={toggleHidden}>?</div>
+          <div className="hidden nav-chars-list">
           <img src={kk} alt="kahn" className="nav-char kk" />
           <img src={jax} alt="jax" className="nav-char jax" />
           <img src={cetrion} alt="cetrion" className="nav-char cetrion" />
+          </div>
         </div>
       </nav>
       <img
